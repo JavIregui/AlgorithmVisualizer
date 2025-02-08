@@ -8,6 +8,7 @@ class AlgorithmVisualizer:
     def __init__(self):
         
         self.selected_algorithm = None
+        self.window_count = 0
 
         # Window
         self.root = tk.Tk()
@@ -122,8 +123,9 @@ class AlgorithmVisualizer:
         if self.selected_algorithm:
             algo_data = ALGORITHMS.get(self.selected_algorithm)
             if algo_data:
+                self.window_count += 1
                 window_class = algo_data["window_class"]
-                window_instance = window_class(self.root, self.selected_algorithm)
+                window_class(self.root, self.selected_algorithm, self.window_count)
 
     def run(self):
         self.root.mainloop()
