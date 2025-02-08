@@ -1,6 +1,6 @@
-<p align="center">
+<!-- <p align="center">
   <img src="media/banner.png" alt="Banner">
-</p>
+</p> -->
 
 # Algorithm Visualizer
 
