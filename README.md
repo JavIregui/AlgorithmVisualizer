@@ -10,15 +10,15 @@ More algorithms will be gradually added over time.
 
 ## Features
 
-- Algorithm selection menu
+- **Algorithm selection** menu
 - Several algorithms can be run at the same time
 - You can:
-  - Time each algorithm
-  - Change the number of items in the set
-  - Read an explanation of the algorithm
+  - **Time** each algorithm
+  - Change the **number of items** in the set
+  - Read an **explanation** of the algorithm
 
 ## Included Algorithms
-- Sorting Algorithms:
+- **Sorting Algorithms**:
   - Bubble Sort
   - Selection Sort
   - Insertion Sort
@@ -31,7 +31,7 @@ More algorithms will be gradually added over time.
   - Cocktail Shaker Sort
   - Tim Sort
   - Gnome Sort
-- Search Algorithms:
+- **Search Algorithms**:
   - Linear Search
   - Binary Search
   - Jump Search
@@ -39,22 +39,22 @@ More algorithms will be gradually added over time.
   - Interpolation Search
   - Ternary Search
   - Fibonacci Search
-- Graph Algorithms:
+- **Graph Algorithms**:
   - Dijkstra
   - A*
   - BFS (Breadth-First Search)
   - DFS (Depth-First Search)
-- Backtracking Algorithms:
+- **Backtracking Algorithms**:
   - N Queen Problem
   - Sudoku Solver
   - Knight's Tour
-- Maze Generation Algorithms:
+- **Maze Generation Algorithms**:
   - Recursive Backtracking
   - Prim's Algorithm
   - Kruskal's Algorithm
-- Evolutionary Algorithms:
+- **Evolutionary Algorithms**:
   - Genetic Algorithm
-- Geometric Algorithms:
+- **Geometric Algorithms**:
   - Convex Hull (Graham's Algorithm)
 
 ## Future Features
