@@ -3,12 +3,12 @@ from tkinter import ttk
 
 
 ################################
-# Función print nombre algoritmo seleccionado
 # Función abre nueva ventana con el algoritmo seleccionado
 ################################
 
 
 class AlgorithmVisualizer:
+    
     def __init__(self):
         
         self.selected_algorithm = None
@@ -40,6 +40,8 @@ class AlgorithmVisualizer:
         self.tree = ttk.Treeview(self.tree_frame, style="Treeview")
         self.tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.tree["show"] = "tree"
+        
+        self.tree.bind("<<TreeviewSelect>>", self.on_algorithm_selected)
 
         sorting_id = self.tree.insert("", "end", text="Sorting algorithms", open=False)
         searching_id = self.tree.insert("", "end", text="Search algorithms", open=False)
@@ -119,7 +121,7 @@ class AlgorithmVisualizer:
         ])
 
         # Play Button
-        ttk.Button(self.main_frame, text="Run Algorithm", style="Play.TButton").pack(fill=tk.X)
+        ttk.Button(self.main_frame, text="Run Algorithm", style="Play.TButton", command=self.run_algorithm).pack(fill=tk.X)
 
     def create_theme(self):
         style = ttk.Style()
@@ -142,5 +144,51 @@ class AlgorithmVisualizer:
                 },
             })
 
+    def on_algorithm_selected(self, event):
+        selected_item = self.tree.selection()
+        if selected_item:
+            item_id = selected_item[0]
+            parent_id = self.tree.parent(item_id)
+
+            if parent_id:
+                self.selected_algorithm = self.tree.item(item_id, "text")
+            else:
+                self.selected_algorithm = None
+            
+    def run_algorithm(self):
+        if self.selected_algorithm:
+            # Crear la nueva ventana
+            self.algorithm_window = tk.Toplevel(self.root)
+            self.algorithm_window.title(self.selected_algorithm)
+
+            # Obtener dimensiones de la pantalla y de la ventana principal
+            screen_width = self.root.winfo_screenwidth()
+            screen_height = self.root.winfo_screenheight()
+            menu_x = self.root.winfo_x()
+            menu_y = self.root.winfo_y()
+            menu_width = self.root.winfo_width()
+            menu_height = self.root.winfo_height()
+
+            # Definir tamaño de la nueva ventana
+            win_width, win_height = 600, 400  # Tamaño fijo o dinámico según el contenido
+
+            # Buscar una posición libre en la pantalla
+            if menu_x + menu_width + win_width < screen_width:  # A la derecha si cabe
+                win_x = menu_x + menu_width + 10
+                win_y = menu_y
+            elif menu_y + menu_height + win_height < screen_height:  # Debajo si cabe
+                win_x = menu_x
+                win_y = menu_y + menu_height + 10
+            else:  # Si no hay espacio, centrar la ventana en la pantalla
+                win_x = (screen_width - win_width) // 2
+                win_y = (screen_height - win_height) // 2
+
+            # Posicionar la ventana
+            self.algorithm_window.geometry(f"{win_width}x{win_height}+{win_x}+{win_y}")
+
+            # Contenido de prueba
+            label = tk.Label(self.algorithm_window, text=f"Running {self.selected_algorithm}...", font=("Arial", 16))
+            label.pack(pady=20)
+    
     def run(self):
         self.root.mainloop()
