@@ -1,12 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 
-
-################################
-# Función abre nueva ventana con el algoritmo seleccionado
-################################
-
-
 class AlgorithmVisualizer:
     
     def __init__(self):
@@ -30,7 +24,7 @@ class AlgorithmVisualizer:
         self.main_frame.pack(fill=tk.BOTH, expand=True, padx=25, pady=20)
 
         # Label
-        ttk.Label(self.main_frame, text="Algorithms", style="Title.TLabel").pack(anchor="w")
+        ttk.Label(self.main_frame, text="Algorithm Visualizer", style="Title.TLabel").pack(anchor="w")
 
         # Tree Frame
         self.tree_frame = tk.Frame(self.main_frame, bg="#303030")
@@ -154,14 +148,14 @@ class AlgorithmVisualizer:
                 self.selected_algorithm = self.tree.item(item_id, "text")
             else:
                 self.selected_algorithm = None
-            
+    
+    # Open the right algorithm
     def run_algorithm(self):
         if self.selected_algorithm:
-            # Crear la nueva ventana
+            
             self.algorithm_window = tk.Toplevel(self.root)
             self.algorithm_window.title(self.selected_algorithm)
 
-            # Obtener dimensiones de la pantalla y de la ventana principal
             screen_width = self.root.winfo_screenwidth()
             screen_height = self.root.winfo_screenheight()
             menu_x = self.root.winfo_x()
@@ -169,24 +163,20 @@ class AlgorithmVisualizer:
             menu_width = self.root.winfo_width()
             menu_height = self.root.winfo_height()
 
-            # Definir tamaño de la nueva ventana
-            win_width, win_height = 600, 400  # Tamaño fijo o dinámico según el contenido
-
-            # Buscar una posición libre en la pantalla
-            if menu_x + menu_width + win_width < screen_width:  # A la derecha si cabe
+            win_width, win_height = 600, 400
+            
+            if menu_x + menu_width + win_width < screen_width:
                 win_x = menu_x + menu_width + 10
                 win_y = menu_y
-            elif menu_y + menu_height + win_height < screen_height:  # Debajo si cabe
+            elif menu_y + menu_height + win_height < screen_height:
                 win_x = menu_x
                 win_y = menu_y + menu_height + 10
-            else:  # Si no hay espacio, centrar la ventana en la pantalla
+            else:
                 win_x = (screen_width - win_width) // 2
                 win_y = (screen_height - win_height) // 2
 
-            # Posicionar la ventana
             self.algorithm_window.geometry(f"{win_width}x{win_height}+{win_x}+{win_y}")
 
-            # Contenido de prueba
             label = tk.Label(self.algorithm_window, text=f"Running {self.selected_algorithm}...", font=("Arial", 16))
             label.pack(pady=20)
     
