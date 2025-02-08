@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+from .utils import ALGORITHMS
+
 
 class AlgorithmVisualizer:
     
@@ -36,55 +38,10 @@ class AlgorithmVisualizer:
         self.tree["show"] = "tree"
         
         self.tree.bind("<<TreeviewSelect>>", self.on_algorithm_selected)
+        
+        self.create_menu()
 
-        sorting_id = self.tree.insert("", "end", text="Sorting algorithms", open=False)
-        searching_id = self.tree.insert("", "end", text="Search algorithms", open=False)
-        graph_id = self.tree.insert("", "end", text="Graph algorithms", open=False)
-        backtracking_id = self.tree.insert("", "end", text="Backtracking algorithms", open=False)
-        maze_id = self.tree.insert("", "end", text="Maze generation algorithms", open=False)
-        evolution_id = self.tree.insert("", "end", text="Evolutionary algorithms", open=False)
-        geometric_id = self.tree.insert("", "end", text="Geometric algorithms", open=False)
-        
-        # Adding items to the tree
-        self.tree.insert(sorting_id, "end", text="Bubble Sort")
-        self.tree.insert(sorting_id, "end", text="Selection Sort")
-        self.tree.insert(sorting_id, "end", text="Insertion Sort")
-        self.tree.insert(sorting_id, "end", text="Merge Sort")
-        self.tree.insert(sorting_id, "end", text="Quick Sort")
-        self.tree.insert(sorting_id, "end", text="Heap Sort")
-        self.tree.insert(sorting_id, "end", text="Radix Sort")
-        self.tree.insert(sorting_id, "end", text="Counting Sort")
-        self.tree.insert(sorting_id, "end", text="Shell Sort")
-        self.tree.insert(sorting_id, "end", text="Cocktail Shaker Sort")
-        self.tree.insert(sorting_id, "end", text="Tim Sort")
-        self.tree.insert(sorting_id, "end", text="Gnome Sort")
-        
-        self.tree.insert(searching_id, "end", text="Linear Search")
-        self.tree.insert(searching_id, "end", text="Binary Search")
-        self.tree.insert(searching_id, "end", text="Jump Search")
-        self.tree.insert(searching_id, "end", text="Exponential Search")
-        self.tree.insert(searching_id, "end", text="Interpolation Search")
-        self.tree.insert(searching_id, "end", text="Ternary Search")
-        self.tree.insert(searching_id, "end", text="Fibonacci Search")
-        
-        self.tree.insert(graph_id, "end", text="Dijkstra")
-        self.tree.insert(graph_id, "end", text="A*")
-        self.tree.insert(graph_id, "end", text="Breadth-First Search (BFS)")
-        self.tree.insert(graph_id, "end", text="Depth-First Search (DFS)")
-        
-        self.tree.insert(backtracking_id, "end", text="N Queen Problem")
-        self.tree.insert(backtracking_id, "end", text="Sudoku Solver")
-        self.tree.insert(backtracking_id, "end", text="Knight's Tour")
-        
-        self.tree.insert(maze_id, "end", text="Recursive Backtracking")
-        self.tree.insert(maze_id, "end", text="Prim's Algorithm")
-        self.tree.insert(maze_id, "end", text="Kruskal's Algorithm")
-        
-        self.tree.insert(evolution_id, "end", text="Genetic Algorithm")
-        
-        self.tree.insert(geometric_id, "end", text="Convex Hull (Graham's Algorithm)")
-
-        self.tree.selection_set(sorting_id)
+        self.tree.selection_set(self.tree.get_children()[0])
         self.tree.focus_force()
 
         # Scrollbar
@@ -138,6 +95,18 @@ class AlgorithmVisualizer:
                 },
             })
 
+    def create_menu(self):
+        categories = {}
+
+        for algo_data in ALGORITHMS.values():
+            category = algo_data["type"]
+            if category not in categories:
+                categories[category] = self.tree.insert("", "end", text=category, open=False)
+
+        for algo_name, algo_data in ALGORITHMS.items():
+            category_id = categories[algo_data["type"]]
+            self.tree.insert(category_id, "end", text=algo_name)
+            
     def on_algorithm_selected(self, event):
         selected_item = self.tree.selection()
         if selected_item:
@@ -149,36 +118,13 @@ class AlgorithmVisualizer:
             else:
                 self.selected_algorithm = None
     
-    # Open the right algorithm
     def run_algorithm(self):
         if self.selected_algorithm:
-            
-            self.algorithm_window = tk.Toplevel(self.root)
-            self.algorithm_window.title(self.selected_algorithm)
+            algo_data = ALGORITHMS.get(self.selected_algorithm)
+            if algo_data:
+                window_class = algo_data["window_class"]
+                window_instance = window_class(self.root, self.selected_algorithm)
 
-            screen_width = self.root.winfo_screenwidth()
-            screen_height = self.root.winfo_screenheight()
-            menu_x = self.root.winfo_x()
-            menu_y = self.root.winfo_y()
-            menu_width = self.root.winfo_width()
-            menu_height = self.root.winfo_height()
-
-            win_width, win_height = 600, 400
-            
-            if menu_x + menu_width + win_width < screen_width:
-                win_x = menu_x + menu_width + 10
-                win_y = menu_y
-            elif menu_y + menu_height + win_height < screen_height:
-                win_x = menu_x
-                win_y = menu_y + menu_height + 10
-            else:
-                win_x = (screen_width - win_width) // 2
-                win_y = (screen_height - win_height) // 2
-
-            self.algorithm_window.geometry(f"{win_width}x{win_height}+{win_x}+{win_y}")
-
-            label = tk.Label(self.algorithm_window, text=f"Running {self.selected_algorithm}...", font=("Arial", 16))
-            label.pack(pady=20)
-    
     def run(self):
         self.root.mainloop()
+    
