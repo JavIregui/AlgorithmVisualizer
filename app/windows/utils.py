@@ -2,6 +2,7 @@ from algorithms import (
     bubble_sort,
     selection_sort,
     insertion_sort,
+    quick_sort,
 )
 
 import random
@@ -18,6 +19,10 @@ ALGORORITHMS_CONFIG = {
     "Insertion Sort": {
         "function": insertion_sort,
         "description": "Insertion Sort is a simple sorting algorithm that builds the sorted list one element at a time by repeatedly inserting the next unsorted element into its correct position within the sorted part of the list. It has an O(n²) time complexity, making it inefficient for large datasets."
+    },
+    "Quick Sort": {
+        "function": quick_sort,
+        "description": "Quick Sort is a divide-and-conquer sorting algorithm that selects a pivot, partitions the list into elements smaller and greater than the pivot, and recursively sorts both parts. It has an average time complexity of O(n log n), making it efficient for large lists."
     },
 }
 
