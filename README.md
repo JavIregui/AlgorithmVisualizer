@@ -18,7 +18,7 @@ More algorithms will be gradually added over time.
   - Read an **explanation** of the algorithm
 
 ## Included Algorithms
-- **Sorting Algorithms**:
+<!-- - **Sorting Algorithms**:
   - Bubble Sort
   - Selection Sort
   - Insertion Sort
@@ -55,7 +55,7 @@ More algorithms will be gradually added over time.
 - **Evolutionary Algorithms**:
   - Genetic Algorithm
 - **Geometric Algorithms**:
-  - Convex Hull (Graham's Algorithm)
+  - Convex Hull (Graham's Algorithm) -->
 
 ## Future Features
 
