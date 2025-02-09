@@ -1,5 +1,6 @@
 from algorithms import (
     bubble_sort,
+    selection_sort
 )
 
 import random
@@ -7,7 +8,11 @@ import random
 ALGORORITHMS_CONFIG = {
     "Bubble Sort": {
         "function": bubble_sort,
-        "description": "Recorre repetidamente la lista comparando elementos adyacentes y los intercambia si están en el orden incorrecto."
+        "description": "Bubble Sort is a simple sorting algorithm that repeatedly compares and swaps adjacent elements until the list is sorted. It has an O(n²) time complexity, making it inefficient for large lists."
+    },
+    "Selection Sort": {
+        "function": selection_sort,
+        "description": "Selection Sort is a sorting algorithm that repeatedly selects the smallest (or largest) element from the unsorted part of the list and swaps it with the first unsorted element. It has an O(n²) time complexity."
     },
 }
 
