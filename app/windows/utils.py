@@ -1,3 +1,62 @@
+from algorithms import (
+    bubble_sort,
+)
+
+import random
+
+ALGORORITHMS_CONFIG = {
+    "Bubble Sort": {
+        "function": bubble_sort,
+        "description": "Recorre repetidamente la lista comparando elementos adyacentes y los intercambia si están en el orden incorrecto."
+    },
+}
+
+def generate_data(n):
+    data = list(range(1, n + 1))
+    random.shuffle(data)
+    return data      
+
+def draw(canvas, data, selected, done):
+    canvas.delete("all")
+    
+    canvas_width = canvas.winfo_width()
+    canvas_height = canvas.winfo_height()
+    
+    if not data or canvas_width <= 0 or canvas_height <= 0:
+        return
+    
+    num_bars = len(data)
+    bar_width = canvas_width / num_bars
+    
+    max_val = max(data)
+    min_val = min(data)
+    
+    for i, value in enumerate(data):
+        if max_val == min_val:
+            bar_height = canvas_height
+        else:
+            bar_height = (canvas_height / max_val) * value
+        
+        x0 = i * bar_width
+        y0 = canvas_height - bar_height
+        x1 = x0 + bar_width
+        y1 = canvas_height
+        
+        if i in selected:
+            color = "#FF0000"
+        else:
+            color = "#FFFFFF"
+            
+        if done:
+            color = "#00FF00"
+        
+        canvas.create_rectangle(
+            x0, y0, x1, y1,
+            fill=color,
+            outline="#303030",
+            width=1
+        ) 
+
 def calculate_window_position(root, win_width, win_height, offset):
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
