@@ -9,6 +9,8 @@ class SortingWindow:
         
         self.algorithm_name = algorithm_name
         self.algorithm_config = ALGORORITHMS_CONFIG[algorithm_name]
+        self.algorithm_function = self.algorithm_config["function"]
+        self.algorithm_generator = None
         
         # Window
         self.window = tk.Toplevel(root)
@@ -78,12 +80,9 @@ class SortingWindow:
         self.elapsed_time = 0
         self.update_timer()
         
-        self.reset()
+        self.done = False
         
-    def execute_algorithm(self):
-        algorithm_function = self.algorithm_config["function"]
-        result = algorithm_function(self.data)
-        self.toggle_algorithm()
+        self.reset()     
 
     def show_algorithm_info(self):
         if not self.description_open:
@@ -133,14 +132,31 @@ class SortingWindow:
                 self.play_button.config(text="Play")
                 self.is_running = False
             else:
-                self.play_button.config(text="Stop")
-                self.is_running = True
-                self.start_time = time.time() - self.elapsed_time
-                self.execute_algorithm()
-            
+                if self.done:
+                    self.reset()
+                else:
+                    self.play_button.config(text="Stop")
+                    self.is_running = True
+                    self.start_time = time.time() - self.elapsed_time
+                    
+                    if self.algorithm_generator is None:
+                        self.algorithm_generator = self.algorithm_function(self.canvas, self.data, draw)
+
+                    self.run_algorithm_step()
+                
             self.update_timer()
         else:
             self.item_count_entry.focus_force()
+    
+    def run_algorithm_step(self):
+        if self.is_running and self.algorithm_generator is not None:
+            try:
+                next(self.algorithm_generator)
+                self.window.after(10, self.run_algorithm_step)
+            except StopIteration:
+                self.is_running = False
+                self.play_button.config(text="Play")
+                self.done = True
     
     def update_timer(self):
         if self.is_running:
@@ -151,9 +167,11 @@ class SortingWindow:
     def reset(self):
         self.is_running = False
         self.play_button.config(text="Play")
+        self.algorithm_generator = None
         
         self.elapsed_time = 0
         self.timer_label.config(text=f"{self.elapsed_time:.3f}s")
+        self.done = False
         
         self.data = generate_data(int(self.n.get()))
         self.window.update_idletasks()
