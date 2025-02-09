@@ -128,11 +128,16 @@ class SortingWindow:
             
             window_height = min(content_height, 300)
             
-            x_pos = self.win_x + self.win_width // 2 - 200
-            y_pos = self.win_y + self.win_height // 2 - (window_height // 2)
+            algo_x = self.window.winfo_x()
+            algo_y = self.window.winfo_y()
+            
+            x_pos = algo_x + self.win_width // 2 - 200
+            y_pos = algo_y + self.win_height // 2 - (window_height // 2)
             
             info_window.geometry(f"400x{window_height}+{x_pos}+{y_pos}")
             info_window.resizable(False, False)
+            
+            info_window.bind("<FocusOut>", lambda event: self.close_info_window(info_window))
             
             info_window.protocol("WM_DELETE_WINDOW", lambda: self.close_info_window(info_window))
 
