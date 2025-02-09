@@ -11,6 +11,7 @@ class SortingWindow:
         self.algorithm_config = ALGORORITHMS_CONFIG[algorithm_name]
         self.algorithm_function = self.algorithm_config["function"]
         self.algorithm_generator = None
+        self.operations = [0]
         
         # Window
         self.window = tk.Toplevel(root)
@@ -52,6 +53,14 @@ class SortingWindow:
         self.item_count_entry.pack(side=tk.RIGHT)
         tk.Label(self.top_frame, text="n:", font=("Helvetica", 12), fg="#FFFFFF", bg="#303030").pack(side=tk.RIGHT, padx=5)
         
+        # Speed
+        self.speed = tk.StringVar(value="80")
+        self.speed.trace_add("write", self.validate_speed)
+        
+        self.speed_entry = tk.Entry(self.top_frame, font=("Helvetica", 12), justify="center", insertbackground="#FFFFFF", borderwidth=0, border=0, highlightthickness=0, bg="#404040", fg="#FFFFFF", relief="flat", width=5, textvariable=self.speed)
+        self.speed_entry.pack(side=tk.RIGHT)
+        tk.Label(self.top_frame, text="Speed:", font=("Helvetica", 12), fg="#FFFFFF", bg="#303030").pack(side=tk.RIGHT, padx=5)
+        
         # Canvas
         self.data = generate_data(int(self.n.get()))
         self.canvas = tk.Canvas(self.window, bg="#404040", highlightthickness=0, border=0, borderwidth=0, relief="flat")
@@ -66,6 +75,22 @@ class SortingWindow:
         # Reset button
         self.reset_button = ttk.Button(bottom_frame, text="Reset", style="Play.TButton", command=self.reset)
         self.reset_button.pack(side=tk.LEFT, padx=10)
+        
+        # Operations per second
+        self.opsps_label = tk.Label(bottom_frame, text=f"0.00 ops/s", font=("Helvetica", 14), fg="#FFFFFF", bg="#303030")
+        self.opsps_label.pack(side=tk.RIGHT)
+        
+        # Separator
+        self.separator = tk.Label(bottom_frame, text=" || ", font=("Helvetica", 14), fg="#FFFFFF", bg="#303030")
+        self.separator.pack(side=tk.RIGHT)
+        
+        # Operations
+        self.ops_label = tk.Label(bottom_frame, text=f"{self.operations[0]} ops", font=("Helvetica", 14), fg="#FFFFFF", bg="#303030")
+        self.ops_label.pack(side=tk.RIGHT)
+        
+        # Separator 2
+        self.separator2 = tk.Label(bottom_frame, text=" || ", font=("Helvetica", 14), fg="#FFFFFF", bg="#303030")
+        self.separator2.pack(side=tk.RIGHT)
         
         # Timer
         self.timer_label = tk.Label(bottom_frame, text="0.000s", font=("Helvetica", 14), fg="#FFFFFF", bg="#303030")
@@ -125,9 +150,22 @@ class SortingWindow:
                 self.n.set("100")
                 
             self.reset()
+            
+    def validate_speed(self, *args):
+        if self.speed.get() != "":
+            try:
+                value = int(self.speed.get())
+                if value < 1 or value > 100:
+                    raise ValueError
+            except ValueError:
+                self.speed.set("80")
+                
+        else:
+            self.play_button.config(text="Play")
+            self.is_running = False
     
     def toggle_algorithm(self):
-        if self.n.get() != "":
+        if self.n.get() != "" and self.speed.get() != "":
             if self.is_running:
                 self.play_button.config(text="Play")
                 self.is_running = False
@@ -140,7 +178,7 @@ class SortingWindow:
                     self.start_time = time.time() - self.elapsed_time
                     
                     if self.algorithm_generator is None:
-                        self.algorithm_generator = self.algorithm_function(self.canvas, self.data, draw)
+                        self.algorithm_generator = self.algorithm_function(self.canvas, self.data, draw, self.operations)
 
                     self.run_algorithm_step()
                 
@@ -151,8 +189,16 @@ class SortingWindow:
     def run_algorithm_step(self):
         if self.is_running and self.algorithm_generator is not None:
             try:
+                speed = int(self.speed.get())
+                delay = 50 - ((speed - 1) * (50 - 1)) / 99
+                
                 next(self.algorithm_generator)
-                self.window.after(10, self.run_algorithm_step)
+                self.ops_label.config(text=f"{self.operations[0]} ops")
+                
+                ops_per_second = self.operations[0] / self.elapsed_time if self.elapsed_time > 0 else 0
+                self.opsps_label.config(text=f"{ops_per_second:.2f} ops/s")
+                    
+                self.window.after(int(delay), self.run_algorithm_step)
             except StopIteration:
                 self.is_running = False
                 self.play_button.config(text="Play")
@@ -174,6 +220,9 @@ class SortingWindow:
         self.done = False
         
         self.data = generate_data(int(self.n.get()))
+        self.operations[0] = 0
+        self.ops_label.config(text=f"{self.operations[0]} ops")
+        self.opsps_label.config(text=f"0.00 ops/s")
         self.window.update_idletasks()
         draw(self.canvas, self.data, [], False)
         
