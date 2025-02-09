@@ -3,6 +3,7 @@ from algorithms import (
     selection_sort,
     insertion_sort,
     quick_sort,
+    merge_sort,
 )
 
 import random
@@ -23,6 +24,10 @@ ALGORORITHMS_CONFIG = {
     "Quick Sort": {
         "function": quick_sort,
         "description": "Quick Sort is a divide-and-conquer sorting algorithm that selects a pivot, partitions the list into elements smaller and greater than the pivot, and recursively sorts both parts. It has an average time complexity of O(n log n), making it efficient for large lists."
+    },
+    "Merge Sort": {
+        "function": merge_sort,
+        "description": "Merge Sort is a divide-and-conquer algorithm that splits the list into two halves, recursively sorts them, and then merges the sorted halves. It has a time complexity of O(n log n), making it efficient for large lists."
     },
 }
 

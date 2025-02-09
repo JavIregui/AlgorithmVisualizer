@@ -22,8 +22,11 @@ More algorithms will be gradually added over time.
 
 ## Included Algorithms
 - **Sorting Algorithms**:
-  - Bubble Sort
+  - Merge Sort
+  - Quick Sort
+  - Insertion Sort
   - Selection Sort
+  - Bubble Sort
 
 ## Future Features
 
