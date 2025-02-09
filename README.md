@@ -16,7 +16,6 @@ More algorithms will be gradually added over time.
   - Read an **explanation** of the algorithm
   - **Time** each algorithm
   - Count the **number of operations**
-  - Count the **operations per second**
   - Change the **number of items** in the set
   - Change the **speed** of the algorithm
   
