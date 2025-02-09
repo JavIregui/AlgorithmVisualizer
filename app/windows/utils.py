@@ -1,6 +1,7 @@
 from algorithms import (
     bubble_sort,
-    selection_sort
+    selection_sort,
+    insertion_sort,
 )
 
 import random
@@ -13,6 +14,10 @@ ALGORORITHMS_CONFIG = {
     "Selection Sort": {
         "function": selection_sort,
         "description": "Selection Sort is a sorting algorithm that repeatedly selects the smallest (or largest) element from the unsorted part of the list and swaps it with the first unsorted element. It has an O(n²) time complexity."
+    },
+    "Insertion Sort": {
+        "function": insertion_sort,
+        "description": "Insertion Sort is a simple sorting algorithm that builds the sorted list one element at a time by repeatedly inserting the next unsorted element into its correct position within the sorted part of the list. It has an O(n²) time complexity, making it inefficient for large datasets."
     },
 }
 

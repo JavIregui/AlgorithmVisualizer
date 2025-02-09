@@ -2,9 +2,9 @@ from .windows.sorting import SortingWindow
 from .windows.search import SearchWindow
 
 ALGORITHMS = {
-    "Bubble Sort":  {"type": "Sorting algorithms", "window_class": SortingWindow},
+    "Insertion Sort":  {"type": "Sorting algorithms", "window_class": SortingWindow},
     "Selection Sort":  {"type": "Sorting algorithms", "window_class": SortingWindow},
-    # "Insertion Sort":  {"type": "Sorting algorithms", "window_class": SortingWindow},
+    "Bubble Sort":  {"type": "Sorting algorithms", "window_class": SortingWindow},
     # "Merge Sort":   {"type": "Sorting algorithms", "window_class": SortingWindow},
     # "Quick Sort":   {"type": "Sorting algorithms", "window_class": SortingWindow},
     # "Heap Sort":  {"type": "Sorting algorithms", "window_class": SortingWindow},
