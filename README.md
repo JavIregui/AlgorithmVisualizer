@@ -43,6 +43,8 @@ At the moment, there are no plans to introduce any new features other than new a
 
 **Python** must be installed on your machine to run the project. In the future, I may create a .exe and a .dmg so you can run it without needing Python.
 
+Make sure to use the **latest Tk version** to run the program or you **might get a blank screen** and warning in the terminal.
+
 ## License
 
 This project is licensed under the MIT License.
