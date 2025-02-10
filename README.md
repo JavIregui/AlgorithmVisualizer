@@ -1,6 +1,6 @@
-<!-- <p align="center">
+<p align="center">
   <img src="media/banner.png" alt="Banner">
-</p> -->
+</p>
 
 # Algorithm Visualizer
 
@@ -27,6 +27,13 @@ More algorithms will be gradually added over time.
   - Insertion Sort
   - Selection Sort
   - Bubble Sort
+
+  ## Screenshots
+
+<p align="center">
+  <img src="media/Screen1.png" alt="screenshot 1" width="49%" style="margin-right: 1%;" />
+  <img src="media/Screen2.png" alt="screenshot 2" width="49%" />
+</p>
 
 ## Future Features
 
